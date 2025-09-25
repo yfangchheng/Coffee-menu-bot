@@ -1,67 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Coffee Mini App</title>
-  <style>
-    body { font-family: Arial; text-align: center; padding: 50px; }
-    button { font-size: 18px; margin: 10px; padding: 10px 20px; cursor: pointer; }
-    #cart { margin-top: 30px; }
-  </style>
+<meta charset="UTF-8">
+<title>Coffee Menu Mini App</title>
+<style>
+  body { font-family: Arial; padding: 20px; }
+  h1 { text-align: center; }
+  .menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+  }
+  .left {
+    display: flex;
+    align-items: center;
+  }
+  .left img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 15px;
+  }
+  .right select, .right input, .right button {
+    margin: 5px;
+    padding: 5px;
+    font-size: 14px;
+  }
+  button {
+    cursor: pointer;
+    padding: 6px 12px;
+  }
+</style>
 </head>
 <body>
-  <h1>☕ Coffee Menu</h1>
 
-  <button onclick="addToCart('Americano', 3)">☕ Americano $3</button>
-  <button onclick="addToCart('Latte', 4)">🥛 Latte $4</button>
-  <button onclick="addToCart('Cappuccino', 5)">🍫 Cappuccino $5</button>
+<h1>☕ Coffee Menu</h1>
 
-  <div id="cart">
-    <h2>🛒 Cart</h2>
-    <ul id="cart-items"></ul>
-    <p id="total">Total: $0</p>
-    <button onclick="checkout()">✅ Checkout</button>
+<div class="menu-item">
+  <div class="left">
+    <img src="https://i.imgur.com/7l1U0V7.png" alt="Americano">
+    <div>
+      <p><b>Americano</b></p>
+      <p>$3</p>
+    </div>
   </div>
+  <div class="right">
+    <label>Sugar:</label>
+    <select id="sugar_americano">
+      <option>No sugar</option>
+      <option>Normal</option>
+      <option>Extra sugar</option>
+    </select><br>
+    <label>Ice:</label>
+    <select id="ice_americano">
+      <option>Less ice</option>
+      <option>Normal ice</option>
+      <option>Extra ice</option>
+    </select><br>
+    <label>Qty:</label>
+    <input type="number" id="qty_americano" value="1" min="1"><br>
+    <button onclick="addToCart('Americano', 3, 'sugar_americano', 'ice_americano', 'qty_americano')">Add to Cart</button>
+  </div>
+</div>
 
-  <script>
-    let cart = [];
-    let prices = { "Americano": 3, "Latte": 4, "Cappuccino": 5 };
+<div class="menu-item">
+  <div class="left">
+    <img src="https://i.imgur.com/0nZ7gG3.png" alt="Latte">
+    <div>
+      <p><b>Latte</b></p>
+      <p>$4</p>
+    </div>
+  </div>
+  <div class="right">
+    <label>Sugar:</label>
+    <select id="sugar_latte">
+      <option>No sugar</option>
+      <option>Normal</option>
+      <option>Extra sugar</option>
+    </select><br>
+    <label>Ice:</label>
+    <select id="ice_latte">
+      <option>Less ice</option>
+      <option>Normal ice</option>
+      <option>Extra ice</option>
+    </select><br>
+    <label>Qty:</label>
+    <input type="number" id="qty_latte" value="1" min="1"><br>
+    <button onclick="addToCart('Latte', 4, 'sugar_latte', 'ice_latte', 'qty_latte')">Add to Cart</button>
+  </div>
+</div>
 
-    function addToCart(item, price) {
-      cart.push(item);
-      updateCart();
+<div class="menu-item">
+  <div class="left">
+    <img src="https://i.imgur.com/6zQeMlf.png" alt="Cappuccino">
+    <div>
+      <p><b>Cappuccino</b></p>
+      <p>$5</p>
+    </div>
+  </div>
+  <div class="right">
+    <label>Sugar:</label>
+    <select id="sugar_cappuccino">
+      <option>No sugar</option>
+      <option>Normal</option>
+      <option>Extra sugar</option>
+    </select><br>
+    <label>Ice:</label>
+    <select id="ice_cappuccino">
+      <option>Less ice</option>
+      <option>Normal ice</option>
+      <option>Extra ice</option>
+    </select><br>
+    <label>Qty:</label>
+    <input type="number" id="qty_cappuccino" value="1" min="1"><br>
+    <button onclick="addToCart('Cappuccino', 5, 'sugar_cappuccino', 'ice_cappuccino', 'qty_cappuccino')">Add to Cart</button>
+  </div>
+</div>
+
+<hr>
+<h2>🛒 Cart</h2>
+<ul id="cart-items"></ul>
+<p id="total">Total: $0</p>
+<button onclick="checkout()">✅ Checkout</button>
+
+<script>
+  let cart = [];
+
+  function addToCart(name, price, sugarId, iceId, qtyId){
+    const sugar = document.getElementById(sugarId).value;
+    const ice = document.getElementById(iceId).value;
+    const qty = parseInt(document.getElementById(qtyId).value);
+
+    cart.push({name, price, sugar, ice, qty});
+    updateCart();
+  }
+
+  function updateCart(){
+    const list = document.getElementById('cart-items');
+    list.innerHTML = '';
+    cart.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = `${item.name} x${item.qty} (Sugar: ${item.sugar}, Ice: ${item.ice}) - $${item.price*item.qty}`;
+      list.appendChild(li);
+    });
+
+    const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+    document.getElementById('total').textContent = `Total: $${total}`;
+  }
+
+  function checkout(){
+    if(cart.length === 0){
+      alert("❌ Your cart is empty!");
+      return;
     }
 
-    function updateCart() {
-      const list = document.getElementById('cart-items');
-      list.innerHTML = '';
-      cart.forEach(i => {
-        const li = document.createElement('li');
-        li.textContent = i + ' $' + prices[i];
-        list.appendChild(li);
-      });
-      const total = cart.reduce((sum, i) => sum + prices[i], 0);
-      document.getElementById('total').textContent = 'Total: $' + total;
+    const total = cart.reduce((sum, i) => sum + i.price*i.qty, 0);
+    const summary = cart.map(i => `- ${i.name} x${i.qty} (Sugar: ${i.sugar}, Ice: ${i.ice})`).join("\n");
+
+    const message = `📋 New Order:\n${summary}\n\n💰 Total: $${total}`;
+    alert(message);
+
+    // Send data to Telegram bot
+    if(window.Telegram.WebApp){
+      Telegram.WebApp.sendData(JSON.stringify({order: cart, total}));
     }
 
-    function checkout() {
-      if(cart.length === 0) {
-        alert("❌ Your cart is empty!");
-        return;
-      }
+    cart = [];
+    updateCart();
+  }
+</script>
 
-      let orderText = "Order placed:\n" + cart.map(i => i + ' $' + prices[i]).join('\n');
-      let total = cart.reduce((sum, i) => sum + prices[i], 0);
-      orderText += `\n\nTotal: $${total}`;
-
-      alert(orderText + "\n\nThanks for ordering! ☕");
-
-      // Here you could send the order to Telegram bot via Web App API
-      // Telegram.WebApp.sendData(JSON.stringify({ cart, total }));
-
-      cart = [];
-      updateCart();
-    }
-  </script>
 </body>
 </html>
