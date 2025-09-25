@@ -5,130 +5,146 @@
 <title>Coffee Mini App</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #ffffff;
-    color: #000000;
-    margin: 0;
-    padding: 0;
-  }
+body {
+  font-family: Arial, sans-serif;
+  background-color: #ffffff;
+  color: #000000;
+  margin: 0;
+  padding: 0;
+}
 
-  h1 {
-    text-align: center;
-    padding: 15px 0;
-    margin: 0;
-    background-color: #f8f8f8;
-    border-bottom: 1px solid #ddd;
-  }
+h1 {
+  text-align: center;
+  padding: 15px 0;
+  margin: 0;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #ddd;
+}
 
-  .menu {
-    padding: 10px;
-    max-height: 55vh;
-    overflow-y: auto;
-  }
+.menu {
+  padding: 10px;
+  max-height: 55vh;
+  overflow-y: auto;
+}
 
-  .menu-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    margin-bottom: 15px;
-    padding: 12px;
-  }
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 15px;
+  padding: 10px;
+  gap: 10px; /* space between left and right */
+}
 
-  .left {
-    display: flex;
-    align-items: center;
-  }
+.left {
+  display: flex;
+  align-items: center;
+  flex: 1 1 50%;
+  gap: 10px;
+}
 
-  .left img {
-    width: 80px;
-    height: 80px;
-    border-radius: 10px;
-    object-fit: cover;
-    margin-right: 12px;
-  }
+.left img {
+  width: 70px;
+  height: 70px;
+  border-radius: 8px;
+  object-fit: cover;
+}
 
-  .right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    min-width: 120px;
-  }
+.right {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 50%;
+  gap: 5px;
+  min-width: 120px;
+}
 
-  .right select, .right input, .right button {
-    margin: 5px 0;
-    padding: 8px;
-    font-size: 16px;
-    width: 100%;
-    box-sizing: border-box;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-  }
+.right select, .right input {
+  padding: 6px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
 
-  .right button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-  }
+.right button {
+  padding: 8px;
+  font-size: 14px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
 
-  .right button:hover {
-    background-color: #0056b3;
-  }
+.right button:hover {
+  background-color: #0056b3;
+}
 
-  #cart-container {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #f8f8f8;
-    border-top: 1px solid #ddd;
-    padding: 10px;
-    box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
-  }
+#cart-container {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #f8f8f8;
+  border-top: 1px solid #ddd;
+  padding: 10px;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+}
 
-  #cart-items {
-    max-height: 120px;
-    overflow-y: auto;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
+#cart-items {
+  max-height: 120px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 
-  #cart-items li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 5px;
-    font-size: 14px;
-  }
+#cart-items li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  font-size: 14px;
+  gap: 5px;
+}
 
-  #cart-items li input {
-    width: 50px;
-    padding: 3px;
-    margin-left: 5px;
-  }
+#cart-items li input {
+  width: 40px;
+  padding: 2px 4px;
+}
 
-  #total {
-    font-weight: bold;
-    margin: 5px 0;
-  }
+#cart-items li button {
+  padding: 2px 6px;
+  font-size: 12px;
+  background-color: #dc3545;
+}
 
-  #checkout-btn {
-    width: 100%;
-    padding: 10px;
-    font-size: 18px;
-    border-radius: 8px;
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-  }
+#cart-items li button:hover {
+  background-color: #a71d2a;
+}
 
-  #checkout-btn:hover {
-    background-color: #1e7e34;
-  }
+#total {
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+#checkout-btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+#checkout-btn:hover {
+  background-color: #1e7e34;
+}
 </style>
 </head>
 <body>
@@ -136,107 +152,90 @@
 <h1>☕ Coffee Menu</h1>
 
 <div class="menu">
-  <!-- Americano -->
   <div class="menu-item">
     <div class="left">
-      <img src="https://via.placeholder.com/80?text=Americano" alt="Americano">
+      <img src="https://via.placeholder.com/70?text=Americano" alt="Americano">
       <div>
         <p><b>Americano</b></p>
         <p>$3</p>
       </div>
     </div>
     <div class="right">
-      <label>Sugar:</label>
       <select id="sugar_americano">
         <option>No sugar</option>
         <option>Normal</option>
         <option>Extra sugar</option>
       </select>
-      <label>Ice:</label>
       <select id="ice_americano">
         <option>Less ice</option>
         <option>Normal ice</option>
         <option>Extra ice</option>
       </select>
-      <label>Qty:</label>
       <input type="number" id="qty_americano" value="1" min="1">
-      <button onclick="addToCart('Americano', 3, 'sugar_americano', 'ice_americano', 'qty_americano')">Add to Cart</button>
+      <button id="btn_americano">Add to Cart</button>
     </div>
   </div>
 
-  <!-- Latte -->
   <div class="menu-item">
     <div class="left">
-      <img src="https://via.placeholder.com/80?text=Latte" alt="Latte">
+      <img src="https://via.placeholder.com/70?text=Latte" alt="Latte">
       <div>
         <p><b>Latte</b></p>
         <p>$4</p>
       </div>
     </div>
     <div class="right">
-      <label>Sugar:</label>
       <select id="sugar_latte">
         <option>No sugar</option>
         <option>Normal</option>
         <option>Extra sugar</option>
       </select>
-      <label>Ice:</label>
       <select id="ice_latte">
         <option>Less ice</option>
         <option>Normal ice</option>
         <option>Extra ice</option>
       </select>
-      <label>Qty:</label>
       <input type="number" id="qty_latte" value="1" min="1">
-      <button onclick="addToCart('Latte', 4, 'sugar_latte', 'ice_latte', 'qty_latte')">Add to Cart</button>
+      <button id="btn_latte">Add to Cart</button>
     </div>
   </div>
 
-  <!-- Cappuccino -->
   <div class="menu-item">
     <div class="left">
-      <img src="https://via.placeholder.com/80?text=Cappuccino" alt="Cappuccino">
+      <img src="https://via.placeholder.com/70?text=Cappuccino" alt="Cappuccino">
       <div>
         <p><b>Cappuccino</b></p>
         <p>$5</p>
       </div>
     </div>
     <div class="right">
-      <label>Sugar:</label>
       <select id="sugar_cappuccino">
         <option>No sugar</option>
         <option>Normal</option>
         <option>Extra sugar</option>
       </select>
-      <label>Ice:</label>
       <select id="ice_cappuccino">
         <option>Less ice</option>
         <option>Normal ice</option>
         <option>Extra ice</option>
       </select>
-      <label>Qty:</label>
       <input type="number" id="qty_cappuccino" value="1" min="1">
-      <button onclick="addToCart('Cappuccino', 5, 'sugar_cappuccino', 'ice_cappuccino', 'qty_cappuccino')">Add to Cart</button>
+      <button id="btn_cappuccino">Add to Cart</button>
     </div>
   </div>
 </div>
 
-<!-- Cart fixed at bottom -->
 <div id="cart-container">
   <ul id="cart-items"></ul>
   <p id="total">Total: $0</p>
-  <button id="checkout-btn" onclick="checkout()">✅ Checkout</button>
+  <button id="checkout-btn">✅ Checkout</button>
 </div>
 
 <script>
 let cart = [];
 
-function addToCart(name, price, sugarId, iceId, qtyId){
-  const sugar = document.getElementById(sugarId).value;
-  const ice = document.getElementById(iceId).value;
-  const qty = parseInt(document.getElementById(qtyId).value);
+function addItem(name, price, sugar, ice, qty){
   if(qty <= 0) return;
-
   cart.push({name, price, sugar, ice, qty});
   updateCart();
 }
@@ -246,36 +245,69 @@ function updateCart(){
   list.innerHTML = '';
   cart.forEach((item, index) => {
     const li = document.createElement('li');
-    li.innerHTML = `
-      ${item.name} (Sugar: ${item.sugar}, Ice: ${item.ice}) 
-      Qty: <input type="number" min="1" value="${item.qty}" onchange="updateQty(${index}, this.value)">
-      - $${item.price*item.qty}
-      <button onclick="removeItem(${index})">❌</button>
-    `;
+
+    const qtyInput = document.createElement('input');
+    qtyInput.type = 'number';
+    qtyInput.min = '1';
+    qtyInput.value = item.qty;
+    qtyInput.addEventListener('change', e => {
+      const val = parseInt(e.target.value);
+      if(val > 0){
+        cart[index].qty = val;
+        updateCart();
+      }
+    });
+
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = '❌';
+    removeBtn.addEventListener('click', () => {
+      cart.splice(index,1);
+      updateCart();
+    });
+
+    li.textContent = `${item.name} (Sugar: ${item.sugar}, Ice: ${item.ice}) `;
+    li.appendChild(document.createTextNode('Qty: '));
+    li.appendChild(qtyInput);
+    li.appendChild(document.createTextNode(` - $${item.price*item.qty} `));
+    li.appendChild(removeBtn);
+
     list.appendChild(li);
   });
 
-  const total = cart.reduce((sum, i) => sum + i.price*i.qty, 0);
+  const total = cart.reduce((sum,i)=>sum + i.price*i.qty,0);
   document.getElementById('total').textContent = `Total: $${total}`;
 }
 
-function updateQty(index, value){
-  const qty = parseInt(value);
-  if(qty <= 0) return;
-  cart[index].qty = qty;
-  updateCart();
-}
+document.getElementById('btn_americano').addEventListener('click', ()=>{
+  addItem('Americano', 3, document.getElementById('sugar_americano').value, document.getElementById('ice_americano').value, parseInt(document.getElementById('qty_americano').value));
+});
 
-function removeItem(index){
-  cart.splice(index, 1);
-  updateCart();
-}
+document.getElementById('btn_latte').addEventListener('click', ()=>{
+  addItem('Latte', 4, document.getElementById('sugar_latte').value, document.getElementById('ice_latte').value, parseInt(document.getElementById('qty_latte').value));
+});
 
-function checkout(){
+document.getElementById('btn_cappuccino').addEventListener('click', ()=>{
+  addItem('Cappuccino', 5, document.getElementById('sugar_cappuccino').value, document.getElementById('ice_cappuccino').value, parseInt(document.getElementById('qty_cappuccino').value));
+});
+
+document.getElementById('checkout-btn').addEventListener('click', ()=>{
   if(cart.length === 0){
     alert("❌ Your cart is empty!");
     return;
   }
+  const total = cart.reduce((sum,i)=>sum+i.price*i.qty,0);
+  const summary = cart.map(i=>`- ${i.name} x${i.qty} (Sugar: ${i.sugar}, Ice: ${i.ice})`).join("\n");
+  const message = `📋 New Order:\n${summary}\n\n💰 Total: $${total}`;
+  alert(message);
 
-  const total = cart.reduce((sum, i) => sum + i.price*i.qty, 0);
-  const summary = cart.map(i => `- ${i.name} x${i.qty} (Sugar: ${i.sugar}, Ice: ${
+  if(window.Telegram.WebApp){
+    Telegram.WebApp.sendData(JSON.stringify({order:cart,total}));
+  }
+
+  cart=[];
+  updateCart();
+});
+</script>
+
+</body>
+</html>
