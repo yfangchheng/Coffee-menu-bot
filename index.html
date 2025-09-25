@@ -2,22 +2,65 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Coffee Menu</title>
+  <title>Coffee Mini App</title>
   <style>
-    body { font-family: Arial; text-align: center; margin-top: 50px; }
+    body { font-family: Arial; text-align: center; padding: 50px; }
     button { font-size: 18px; margin: 10px; padding: 10px 20px; cursor: pointer; }
+    #cart { margin-top: 30px; }
   </style>
 </head>
 <body>
   <h1>☕ Coffee Menu</h1>
-  <button onclick="order('Americano', 3)">Americano $3</button>
-  <button onclick="order('Latte', 4)">Latte $4</button>
-  <button onclick="order('Cappuccino', 5)">Cappuccino $5</button>
+
+  <button onclick="addToCart('Americano', 3)">☕ Americano $3</button>
+  <button onclick="addToCart('Latte', 4)">🥛 Latte $4</button>
+  <button onclick="addToCart('Cappuccino', 5)">🍫 Cappuccino $5</button>
+
+  <div id="cart">
+    <h2>🛒 Cart</h2>
+    <ul id="cart-items"></ul>
+    <p id="total">Total: $0</p>
+    <button onclick="checkout()">✅ Checkout</button>
+  </div>
 
   <script>
-    function order(item, price) {
-      alert(`You ordered ${item} for $${price}!`);
-      // Here you would send data to your Telegram bot
+    let cart = [];
+    let prices = { "Americano": 3, "Latte": 4, "Cappuccino": 5 };
+
+    function addToCart(item, price) {
+      cart.push(item);
+      updateCart();
+    }
+
+    function updateCart() {
+      const list = document.getElementById('cart-items');
+      list.innerHTML = '';
+      cart.forEach(i => {
+        const li = document.createElement('li');
+        li.textContent = i + ' $' + prices[i];
+        list.appendChild(li);
+      });
+      const total = cart.reduce((sum, i) => sum + prices[i], 0);
+      document.getElementById('total').textContent = 'Total: $' + total;
+    }
+
+    function checkout() {
+      if(cart.length === 0) {
+        alert("❌ Your cart is empty!");
+        return;
+      }
+
+      let orderText = "Order placed:\n" + cart.map(i => i + ' $' + prices[i]).join('\n');
+      let total = cart.reduce((sum, i) => sum + prices[i], 0);
+      orderText += `\n\nTotal: $${total}`;
+
+      alert(orderText + "\n\nThanks for ordering! ☕");
+
+      // Here you could send the order to Telegram bot via Web App API
+      // Telegram.WebApp.sendData(JSON.stringify({ cart, total }));
+
+      cart = [];
+      updateCart();
     }
   </script>
 </body>
