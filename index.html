@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Coffee Menu</title>
+  <style>
+    body { font-family: Arial; text-align: center; margin-top: 50px; }
+    button { font-size: 18px; margin: 10px; padding: 10px 20px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>☕ Coffee Menu</h1>
+  <button onclick="order('Americano', 3)">Americano $3</button>
+  <button onclick="order('Latte', 4)">Latte $4</button>
+  <button onclick="order('Cappuccino', 5)">Cappuccino $5</button>
+
+  <script>
+    function order(item, price) {
+      alert(`You ordered ${item} for $${price}!`);
+      // Here you would send data to your Telegram bot
+    }
+  </script>
+</body>
+</html>
