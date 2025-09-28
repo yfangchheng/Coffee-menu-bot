@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Coffee Mini App</title>
+<title>Coffee Menu(QS Dept)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   body {
@@ -70,15 +70,17 @@
   }
 
   .right button {
-    margin-top: 5px;
-    padding: 6px;
-    font-size: 13px;
-    border-radius: 12px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-  }
+  margin-top: 5px;
+  padding: 6px 10px;
+  font-size: 13px;
+  border-radius: 12px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  width: auto;         /* shrink to fit text */
+  align-self: center;  /* center inside column */
+}
 
   .right button:hover {
     background-color: #0056b3;
@@ -253,7 +255,7 @@
       <img src="https://ungroundedcoffee.com/image/cache/data/Products/Beverage/IcedAmericano-600x600-500x500.jpg" alt="Americano">
       <div>
         <p><b>Americano</b></p>
-        <p>$3</p>
+        <p>$1.5</p>
       </div>
     </div>
     <div class="right">
@@ -268,7 +270,7 @@
         <option>Extra ice</option>
       </select>
       <input type="number" id="qty_americano" value="1" min="1">
-      <button onclick="addToCart('Americano', 3, 'sugar_americano', 'ice_americano', 'qty_americano')">Add</button>
+      <button onclick="addToCart('Americano', 1.5, 'sugar_americano', 'ice_americano', 'qty_americano')">Add</button>
     </div>
   </div>
 
@@ -278,7 +280,7 @@
       <img src="https://ungroundedcoffee.com/image/cache/data/Products/Beverage/Iced-Latte-Ungrounded-Coffee-500x500.jpeg" alt="Latte">
       <div>
         <p><b>Latte</b></p>
-        <p>$4</p>
+        <p>$1.5</p>
       </div>
     </div>
     <div class="right">
@@ -293,7 +295,7 @@
         <option>Extra ice</option>
       </select>
       <input type="number" id="qty_latte" value="1" min="1">
-      <button onclick="addToCart('Latte', 4, 'sugar_latte', 'ice_latte', 'qty_latte')">Add</button>
+      <button onclick="addToCart('Latte', 1.5, 'sugar_latte', 'ice_latte', 'qty_latte')">Add</button>
     </div>
   </div>
 
@@ -303,7 +305,7 @@
       <img src="https://ungroundedcoffee.com/image/cache/data/00042-500x500.jpg" alt="Cappuccino">
       <div>
         <p><b>Cappuccino</b></p>
-        <p>$5</p>
+        <p>$2</p>
       </div>
     </div>
     <div class="right">
@@ -318,7 +320,7 @@
         <option>Extra ice</option>
       </select>
       <input type="number" id="qty_cappuccino" value="1" min="1">
-      <button onclick="addToCart('Cappuccino', 5, 'sugar_cappuccino', 'ice_cappuccino', 'qty_cappuccino')">Add</button>
+      <button onclick="addToCart('Cappuccino', 2, 'sugar_cappuccino', 'ice_cappuccino', 'qty_cappuccino')">Add</button>
     </div>
   </div>
 </div>
@@ -348,8 +350,8 @@
     <div id="order-summary"></div>
     <p><b>Scan QR to Pay:</b></p>
     <div style="text-align:center;">
-      <img src="https://drive.usercontent.google.com/download?id=1YMgCKWJcKxS8RdU55dKxq_Te7fZJkc58&export=view&authuser=0" 
-           alt="Bank QR Code" style="width:100%;max-width:350px;border-radius:12px;">
+      <img src="IMG_2032.jpeg" alt="Bank QR Code" 
+           style="width:100%;max-width:350px;border-radius:12px;">
     </div>
     <button id="paid-btn" onclick="finishOrder()">✅ I Have Paid</button>
   </div>
