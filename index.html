@@ -108,18 +108,7 @@
     position:fixed;
     right:18px;
     bottom:18px;
-    width:60px;
-    height:60px;
-    border-radius:50%;
-    background:var(--accent);
-    color:#fff;
-    font-size:26px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    box-shadow:0 6px 20px rgba(0,0,0,0.18);
-    cursor:pointer;
-    z-index:1200;
+    z-index:900;
   }
   #cart-badge {
     position:absolute;
@@ -413,14 +402,12 @@ function removeItem(index){
 /* open / close cart modal */
 function openCart(){
   document.getElementById('cart-modal').style.display='flex';
-  document.getElementById('cart-modal').setAttribute('aria-hidden','false');
+  document.getElementById('cart-fab').style.display='none'; // hide FAB
 }
 function closeCart(){
   document.getElementById('cart-modal').style.display='none';
-  document.getElementById('cart-modal').setAttribute('aria-hidden','true');
+  document.getElementById('cart-fab').style.display='flex'; // show FAB again
 }
-
-/* checkout -> show payment modal (only total) */
 function checkout(){
   if(cart.length === 0){
     alert('❌ Your cart is empty!');
@@ -430,13 +417,11 @@ function checkout(){
   const total = cart.reduce((s,i)=>s + i.price*i.qty, 0);
   document.getElementById('order-summary').innerHTML = `💰 Total: $${total.toFixed(2)}`;
   document.getElementById('checkout-modal').style.display='flex';
-  document.getElementById('checkout-modal').setAttribute('aria-hidden','false');
+  document.getElementById('cart-fab').style.display='none'; // hide FAB during checkout
 }
-
-/* close checkout */
 function closeCheckout(){
   document.getElementById('checkout-modal').style.display='none';
-  document.getElementById('checkout-modal').setAttribute('aria-hidden','true');
+  document.getElementById('cart-fab').style.display='flex'; // show FAB again
 }
 
 /* finish order */
