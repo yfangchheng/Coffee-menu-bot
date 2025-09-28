@@ -61,13 +61,16 @@
   }
 
   .right select, 
-  .right input {
-    margin: 3px 0;
-    padding: 5px;
-    font-size: 13px;
-    border-radius: 12px;
-    border: 1px solid #ccc;
-  }
+.right input {
+  margin: 3px 0;
+  padding: 5px 8px;
+  font-size: 13px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  width: auto;         /* shrink to fit */
+  max-width: 100px;    /* keep compact */
+  align-self: center;  /* center them */
+}
 
   .right button {
   margin-top: 5px;
@@ -347,13 +350,19 @@
   <div class="checkout-content">
     <span class="close" onclick="closeCheckout()">&times;</span>
     <h3>Payment</h3>
-    <div id="order-summary"></div>
+    
+    <div id="order-summary" style="font-size:16px;font-weight:bold;margin-bottom:15px;"></div>
+    
     <p><b>Scan QR to Pay:</b></p>
-    <div style="text-align:center;">
+    <div style="text-align:center;margin-bottom:80px;">
       <img src="IMG_2032.jpeg" alt="Bank QR Code" 
            style="width:100%;max-width:350px;border-radius:12px;">
     </div>
-    <button id="paid-btn" onclick="finishOrder()">✅ I Have Paid</button>
+
+    <!-- fixed bottom button -->
+    <div style="position:sticky;bottom:0;background:#fff;padding-top:10px;">
+      <button id="paid-btn" onclick="finishOrder()">✅ I Have Paid</button>
+    </div>
   </div>
 </div>
 
@@ -428,8 +437,6 @@ function checkout(){
   closeCart();
 
   const total = cart.reduce((sum, i) => sum + i.price*i.qty, 0);
-  const summary = cart.map(i => `- ${i.name} x${i.qty} (${i.sugar}, ${i.ice})`).join("<br>");
-  const message = `<p>${summary}</p><p><b>Total: $${total.toFixed(2)}</b></p>`;
 
   document.getElementById('order-summary').innerHTML = message;
   document.getElementById('checkout-modal').style.display = "block";
