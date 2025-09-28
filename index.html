@@ -115,8 +115,9 @@
     font-weight: bold;
   }
 
-  /* cart modal (popup) */
-  #cart-modal {
+  /* modals */
+  #cart-modal,
+  #checkout-modal {
     display: none;
     position: fixed;
     z-index: 300;
@@ -129,7 +130,8 @@
     background-color: rgba(0,0,0,0.3);
   }
 
-  .cart-content {
+  .cart-content,
+  .checkout-content {
     background: #ffffff;
     margin: 10% auto;
     padding: 20px;
@@ -240,7 +242,7 @@
 </head>
 <body>
 
-<h1>☕ C7 Coffee Menu (QS Dept)</h1>
+<h1>☕ Coffee Menu</h1>
 
 <div class="menu">
   <!-- Americano -->
@@ -248,8 +250,8 @@
     <div class="left">
       <img src="https://ungroundedcoffee.com/image/cache/data/Products/Beverage/IcedAmericano-600x600-500x500.jpg" alt="Americano">
       <div>
-        <p><b>Iced Americano</b></p>
-        <p>$1.5</p>
+        <p><b>Americano</b></p>
+        <p>$3</p>
       </div>
     </div>
     <div class="right">
@@ -264,7 +266,7 @@
         <option>Extra ice</option>
       </select>
       <input type="number" id="qty_americano" value="1" min="1">
-      <button onclick="addToCart('Iced Americano', 1.5, 'sugar_americano', 'ice_americano', 'qty_americano')">Add</button>
+      <button onclick="addToCart('Americano', 3, 'sugar_americano', 'ice_americano', 'qty_americano')">Add</button>
     </div>
   </div>
 
@@ -273,8 +275,8 @@
     <div class="left">
       <img src="https://ungroundedcoffee.com/image/cache/data/Products/Beverage/Iced-Latte-Ungrounded-Coffee-500x500.jpeg" alt="Latte">
       <div>
-        <p><b>Iced Latte</b></p>
-        <p>$1.5</p>
+        <p><b>Latte</b></p>
+        <p>$4</p>
       </div>
     </div>
     <div class="right">
@@ -289,7 +291,7 @@
         <option>Extra ice</option>
       </select>
       <input type="number" id="qty_latte" value="1" min="1">
-      <button onclick="addToCart('Iced Latte', 1.5, 'sugar_latte', 'ice_latte', 'qty_latte')">Add</button>
+      <button onclick="addToCart('Latte', 4, 'sugar_latte', 'ice_latte', 'qty_latte')">Add</button>
     </div>
   </div>
 
@@ -299,7 +301,7 @@
       <img src="https://ungroundedcoffee.com/image/cache/data/00042-500x500.jpg" alt="Cappuccino">
       <div>
         <p><b>Cappuccino</b></p>
-        <p>$2</p>
+        <p>$5</p>
       </div>
     </div>
     <div class="right">
@@ -314,7 +316,7 @@
         <option>Extra ice</option>
       </select>
       <input type="number" id="qty_cappuccino" value="1" min="1">
-      <button onclick="addToCart('Cappuccino', 2, 'sugar_cappuccino', 'ice_cappuccino', 'qty_cappuccino')">Add</button>
+      <button onclick="addToCart('Cappuccino', 5, 'sugar_cappuccino', 'ice_cappuccino', 'qty_cappuccino')">Add</button>
     </div>
   </div>
 </div>
@@ -333,6 +335,21 @@
     <ul id="cart-items"></ul>
     <p id="total">Total: $0</p>
     <button id="checkout-btn" onclick="checkout()">✅ Checkout</button>
+  </div>
+</div>
+
+<!-- Checkout / Payment Modal -->
+<div id="checkout-modal">
+  <div class="checkout-content">
+    <span class="close" onclick="closeCheckout()">&times;</span>
+    <h3>Payment</h3>
+    <div id="order-summary"></div>
+    <p><b>Scan QR to Pay:</b></p>
+    <div style="text-align:center;">
+      <img src="https://drive.google.com/uc?export=view&id=1YMgCKWJcKxS8RdU55dKxq_Te7fZJkc58" 
+           alt="Bank QR Code" style="width:200px;height:200px;">
+    </div>
+    <button onclick="finishOrder()">✅ I Have Paid</button>
   </div>
 </div>
 
@@ -369,7 +386,6 @@ function updateCart(){
   const total = cart.reduce((sum, i) => sum + i.price*i.qty, 0);
   document.getElementById('total').textContent = `Total: $${total.toFixed(2)}`;
 
-  // update badge
   const badge = document.getElementById('cart-badge');
   if(cart.length > 0){
     badge.style.display = 'block';
@@ -399,33 +415,36 @@ function closeCart(){
   document.getElementById('cart-modal').style.display = "none";
 }
 
-// close modal when clicking outside
-window.onclick = function(event) {
-  const modal = document.getElementById('cart-modal');
-  if (event.target === modal) {
-    modal.style.display = "none";
-  }
-}
-
 function checkout(){
   if(cart.length === 0){
     alert("❌ Your cart is empty!");
     return;
   }
 
-  const total = cart.reduce((sum, i) => sum + i.price*i.qty, 0);
-  const summary = cart.map(i => `- ${i.name} x${i.qty} (${i.sugar}, ${i.ice})`).join("\n");
-  const message = `📋 New Order:\n${summary}\n\n💰 Total: $${total.toFixed(2)}`;
+  closeCart();
 
-  alert(message);
+  const total = cart.reduce((sum, i) => sum + i.price*i.qty, 0);
+  const summary = cart.map(i => `- ${i.name} x${i.qty} (${i.sugar}, ${i.ice})`).join("<br>");
+  const message = `<p>${summary}</p><p><b>Total: $${total.toFixed(2)}</b></p>`;
+
+  document.getElementById('order-summary').innerHTML = message;
+  document.getElementById('checkout-modal').style.display = "block";
+}
+
+function closeCheckout(){
+  document.getElementById('checkout-modal').style.display = "none";
+}
+
+function finishOrder(){
+  alert("✅ Order confirmed! Thank you for payment.");
 
   if(window.Telegram && Telegram.WebApp){
-    Telegram.WebApp.sendData(JSON.stringify({order: cart, total}));
+    Telegram.WebApp.sendData(JSON.stringify({order: cart, paid:true}));
   }
 
   cart = [];
   updateCart();
-  closeCart();
+  closeCheckout();
 }
 
 function showToast(msg){
