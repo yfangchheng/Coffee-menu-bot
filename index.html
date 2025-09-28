@@ -56,7 +56,7 @@
   .right {
     display: flex;
     flex-direction: column;
-    flex: 0 0 110px;
+    flex: 0 0 100px;
     align-items: stretch;
   }
 
@@ -65,15 +65,15 @@
     margin: 3px 0;
     padding: 5px;
     font-size: 13px;
-    border-radius: 20px;
+    border-radius: 12px;
     border: 1px solid #ccc;
   }
 
   .right button {
     margin-top: 5px;
-    padding: 8px;
+    padding: 6px;
     font-size: 13px;
-    border-radius: 20px;
+    border-radius: 12px;
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -193,7 +193,8 @@
     margin: 10px 0;
   }
 
-  #checkout-btn {
+  #checkout-btn,
+  #paid-btn {
     width: 100%;
     padding: 12px;
     font-size: 16px;
@@ -204,7 +205,8 @@
     cursor: pointer;
   }
 
-  #checkout-btn:hover {
+  #checkout-btn:hover,
+  #paid-btn:hover {
     background-color: #1e7e34;
   }
 
@@ -347,9 +349,9 @@
     <p><b>Scan QR to Pay:</b></p>
     <div style="text-align:center;">
       <img src="https://drive.usercontent.google.com/download?id=1YMgCKWJcKxS8RdU55dKxq_Te7fZJkc58&export=view&authuser=0" 
-           alt="Bank QR Code" style="width:200px;height:200px;">
+           alt="Bank QR Code" style="width:100%;max-width:350px;border-radius:12px;">
     </div>
-    <button onclick="finishOrder()">✅ I Have Paid</button>
+    <button id="paid-btn" onclick="finishOrder()">✅ I Have Paid</button>
   </div>
 </div>
 
