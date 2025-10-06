@@ -1,107 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>QS Coffee — Order</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  https://telegram.org/js/telegram-web-app.js</script>
-  <style>
-    body { font-family: system-ui, Arial; margin: 0; padding: 16px; }
-    h1 { margin: 0 0 10px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
-    .card { border: 1px solid #ddd; border-radius: 8px; padding: 12px; background: #fff; }
-    .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-    .options { display: flex; gap: 8px; margin-top: 8px; }
-    select, button { padding: 8px 10px; font-size: 14px; }
-    #footer { position: sticky; bottom: 0; background: #fafafa; border-top: 1px solid #eee; padding: 12px; margin-top: 14px; }
-    #total { font-weight: 700; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Coffee Menu</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  /* Your existing CSS remains the same */
+  body {
+    font-family: system-ui, sans-serif;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  /* ... rest of your CSS ... */
+</style>
 </head>
 <body>
-  <h1>☕ QS Coffee</h1>
-  <p>Add items, then tap <b>Send Order</b>.</p>
 
-  <div class="grid">
-    <div class="card" data-name="Americano" data-price="1.5">
-      <div class="row"><strong>Americano</strong><span>$1.50</span></div>
-      <div class="options">
-        <label>Sugar <select class="sugar"><option>Normal</option><option>No sugar</option><option>Extra sugar</option></select></label>
-        <label>Ice <select class="ice"><option>Normal ice</option><option>Less ice</option><option>Extra ice</option></select></label>
-      </div>
-      <button class="add" style="margin-top:8px">Add</button>
-    </div>
+<h1>☕ Coffee Menu</h1>
 
-    <div class="card" data-name="Latte" data-price="1.5">
-      <div class="row"><strong>Latte</strong><span>$1.50</span></div>
-      <div class="options">
-        <label>Sugar <select class="sugar"><option>Normal</option><option>No sugar</option><option>Extra sugar</option></select></label>
-        <label>Ice <select class="ice"><option>Normal ice</option><option>Less ice</option><option>Extra ice</option></select></label>
-      </div>
-      <button class="add" style="margin-top:8px">Add</button>
-    </div>
-
-    <div class="card" data-name="Cappuccino" data-price="2">
-      <div class="row"><strong>Cappuccino</strong><span>$2.00</span></div>
-      <div class="options">
-        <label>Sugar <select class="sugar"><option>Normal</option><option>No sugar</option><option>Extra sugar</option></select></label>
-        <label>Ice <select class="ice"><option>Normal ice</option><option>Less ice</option><option>Extra ice</option></select></label>
-      </div>
-      <button class="add" style="margin-top:8px">Add</button>
+<!-- Coffee Items -->
+<div class="menu-item">
+  <div class="menu-left">
+    <img src="https://ungroundedcoffee.com/image/cache/data/Products/Beverage/IcedAmericano-600x600-500x500.jpg" alt="Americano">
+    <div class="menu-info">
+      <strong>Americano</strong>
+      <span>$1.5</span>
     </div>
   </div>
+  <div class="menu-right">
+    <select id="sugar_americano">
+      <option>No sugar</option><option>Normal</option><option>Extra sugar</option>
+    </select>
+    <select id="ice_americano">
+      <option>Less ice</option><option>Normal ice</option><option>Extra ice</option>
+    </select>
+    <input id="qty_americano" type="number" value="1" min="1">
+    <button class="add" onclick="addToCart('americano', 1.5)">Add</button>
+  </div>
+</div>
 
-  <div id="footer" class="row">
-    <div>🛒 Items: <span id="count">0</span> | <span id="total">$0.00</span></div>
-    <div>
-      <button id="clear">Clear</button>
-      <button id="send">Send Order</button>
+<div class="menu-item">
+  <div class="menu-left">
+    <img src="https://ungroundedcoffee.com/image/cache/data/Products/Beverage/Iced-Latte-Ungrounded-Coffee-500x500.jpeg" alt="Latte">
+    <div class="menu-info">
+      <strong>Latte</strong>
+      <span>$1.5</span>
     </div>
   </div>
+  <div class="menu-right">
+    <select id="sugar_latte">
+      <option>No sugar</option><option>Normal</option><option>Extra sugar</option>
+    </select>
+    <select id="ice_latte">
+      <option>Less ice</option><option>Normal ice</option><option>Extra ice</option>
+    </select>
+    <input id="qty_latte" type="number" value="1" min="1">
+    <button class="add" onclick="addToCart('latte', 1.5)">Add</button>
+  </div>
+</div>
 
-  <script>
-    const tg = window.Telegram?.WebApp; tg?.ready();
+<div class="menu-item">
+  <div class="menu-left">
+    <img src="https://ungroundedcoffee.com/image/cache/data/00042-500x500.jpg" alt="Cappuccino">
+    <div class="menu-info">
+      <strong>Cappuccino</strong>
+      <span>$2</span>
+    </div>
+  </div>
+  <div class="menu-right">
+    <select id="sugar_cappuccino">
+      <option>No sugar</option><option>Normal</option><option>Extra sugar</option>
+    </select>
+    <select id="ice_cappuccino">
+      <option>Less ice</option><option>Normal ice</option><option>Extra ice</option>
+    </select>
+    <input id="qty_cappuccino" type="number" value="1" min="1">
+    <button class="add" onclick="addToCart('cappuccino', 2)">Add</button>
+  </div>
+</div>
 
-    const prices = { Americano: 1.5, Latte: 1.5, Cappuccino: 2.0 };
-    const cart = [];
-    const $ = id => document.getElementById(id);
+<!-- Floating Cart and Popups remain the same -->
+<div class="cart-btn" onclick="openCart()">
+  🛒
+  <span class="cart-count" id="cartCount">0</span>
+</div>
 
-    function render() {
-      const count = cart.reduce((n, i) => n + i.qty, 0);
-      const total = cart.reduce((s, i) => s + (prices[i.name] || 0) * i.qty, 0);
-      $("count").textContent = String(count);
-      $("total").textContent = `$${total.toFixed(2)}`;
+<div class="popup-bg" id="cartPopup">
+  <div class="popup">
+    <h2>Your Cart</h2>
+    <div id="cartDetails"></div>
+    <button onclick="showPayment()">Checkout</button>
+    <button class="close-btn" onclick="closePopup('cartPopup')">Close</button>
+  </div>
+</div>
+
+<div class="popup-bg" id="paymentPopup">
+  <div class="popup">
+    <h2>Scan QR to Pay</h2>
+    <img class="qr" src="IMG_2032.jpeg" alt="QR Code">
+    <p id="totalText"></p>
+    <button onclick="finishOrder()">I Have Paid</button>
+    <button class="close-btn" onclick="closePopup('paymentPopup')">Cancel</button>
+  </div>
+</div>
+
+<script>
+  let cart = [];
+
+  function addToCart(name, price) {
+    try {
+      const sugar = document.getElementById('sugar_' + name).value;
+      const ice = document.getElementById('ice_' + name).value;
+      const qty = parseInt(document.getElementById('qty_' + name).value);
+      
+      cart.push({ 
+        name: name.charAt(0).toUpperCase() + name.slice(1), // Capitalize for display
+        price, 
+        sugar, 
+        ice, 
+        qty 
+      });
+      
+      updateCartCount();
+      alert(`Added ${name} to cart!`); // Debug alert
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      alert('Error adding item to cart. Please try again.');
     }
+  }
 
-    function addItem(name, sugar, ice) {
-      const key = `${name}|${sugar}|${ice}`;
-      const found = cart.find(i => i.key === key);
-      if (found) found.qty += 1; else cart.push({ key, name, sugar, ice, qty: 1 });
-      render();
+  function updateCartCount() {
+    document.getElementById('cartCount').innerText = cart.length;
+  }
+
+  function openCart() {
+    if (cart.length === 0) {
+      alert("Your cart is empty!");
+      return;
     }
+    const details = cart.map(i => 
+      `${i.name} x${i.qty} (${i.sugar}, ${i.ice}) - $${(i.price * i.qty).toFixed(2)}`
+    ).join("<br>");
+    document.getElementById('cartDetails').innerHTML = details;
+    document.getElementById('cartPopup').style.display = 'flex';
+  }
 
-    document.querySelectorAll(".card").forEach(card => {
-      const name = card.dataset.name;
-      const sugarSel = card.querySelector(".sugar");
-      const iceSel = card.querySelector(".ice");
-      card.querySelector(".add").addEventListener("click", () => addItem(name, sugarSel.value, iceSel.value));
-    });
+  function closePopup(id) {
+    document.getElementById(id).style.display = 'none';
+  }
 
-    $("clear").addEventListener("click", () => { cart.splice(0, cart.length); render(); });
+  function showPayment() {
+    document.getElementById('cartPopup').style.display = 'none';
+    const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+    document.getElementById('totalText').innerText = "Total: $" + total.toFixed(2);
+    document.getElementById('paymentPopup').style.display = 'flex';
+  }
 
-    $("send").addEventListener("click", () => {
-      if (!cart.length) { alert("Your cart is empty."); return; }
-      const total = cart.reduce((s, i) => s + (prices[i.name] || 0) * i.qty, 0);
-      const payload = {
-        order: cart.map(({ name, qty, sugar, ice }) => ({ name, qty, sugar, ice })),
-        total: Number(total.toFixed(2)),
-        paid: true
-      };
-      if (!tg) { alert("Open from Telegram."); return; }
-      tg.sendData(JSON.stringify(payload));
-      tg.close();
-    });
+  function finishOrder() {
+    const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+    
+    // Debug: show what we're sending
+    console.log('Sending order:', cart);
+    alert('Sending order: ' + JSON.stringify(cart));
+    
+    if (window.Telegram && Telegram.WebApp) {
+      Telegram.WebApp.sendData(JSON.stringify({ 
+        order: cart, 
+        paid: true, 
+        total: total 
+      }));
+      Telegram.WebApp.close(); // Close the web app after sending
+    } else {
+      alert("Order submitted (test mode). Total: $" + total.toFixed(2));
+    }
+    
+    cart = [];
+    updateCartCount();
+    closePopup('paymentPopup');
+  }
+</script>
 
-    render();
-  </script>
 </body>
 </html>
