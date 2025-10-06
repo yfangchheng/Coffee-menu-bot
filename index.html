@@ -1,23 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Mini App Test</title>
+  <meta charset="UTF-8" />
+  <title>Telegram Mini App Test</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://telegram.org/js/telegramscript>
-  <style> body { font-family: system-ui, Arial; padding: 16px; } </style>
+  <script src="https://telegram.org/js/telegram-webyle>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    h1 { margin-bottom: 10px; }
+    #status { margin-bottom: 20px; font-weight: bold; }
+    button { padding: 10px 16px; font-size: 16px; }
+  </style>
 </head>
 <body>
-  <h1>✅ Page Loaded</h1>
-  <p id="status">Checking Telegram context…</p>
-  <button id="send">Send Data</button>
+  <h1>Telegram Mini App Test</h1>
+  <div id="status">Waiting for action...</div>
+  <button id="clickBtn">Click Me</button>
+
   <script>
     const tg = window.Telegram?.WebApp;
-    document.getElementById('status').textContent = tg ? "✅ Telegram.WebApp detected" : "❌ Not detected";
-    document.getElementById('send').onclick = () => {
-      if (!tg) { alert("Not inside Telegram"); return; }
-      tg.sendData(JSON.stringify({ test: true, message: "Hello from Mini App" }));
-      tg.close();
-    };
+    tg?.ready();
+
+    document.getElementById("clickBtn").addEventListener("click", () => {
+      document.getElementById("status").textContent = "Button Clicked!";
+      if (tg) {
+        tg.sendData(JSON.stringify({ clicked: true, message: "Button was clicked" }));
+      }
+    });
   </script>
 </body>
+</html>
