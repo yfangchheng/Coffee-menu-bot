@@ -2,92 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Telegram WebApp Diagnostics</title>
+  <title>Mini App Test</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    body { font-family: system-ui, Arial, sans-serif; padding: 16px; line-height: 1.35; }
-    h1 { margin: 0 0 8px; }
-    code, pre { background: #f6f8fa; padding: 2px 4px; border-radius: 4px; }
-    .ok { color: #0a7f2e; font-weight: 600; }
-    .warn { color: #b26a00; font-weight: 600; }
-    .err { color: #a40000; font-weight: 600; }
-    .box { border: 1px solid #ddd; border-radius: 8px; padding: 12px; margin-top: 10px; }
-    button { padding: 10px 14px; font-size: 16px; margin-right: 8px; }
-  </style>
-
-  <!-- Load Telegram WebApp SDK with onload/onerror so we see if it's blocked -->
+  <script src="https://telegram.org/js/telegramscript>
+  <style> body { font-family: system-ui, Arial; padding: 16px; } </style>
+</head>
+<body>
+  <h1>✅ Page Loaded</h1>
+  <p id="status">Checking Telegram context…</p>
+  <button id="send">Send Data</button>
   <script>
-    window.__diag = { sdkLoaded: false, sdkError: null, messages: [] };
-    function log(msg) {
-      __diag.messages.push(msg);
-      const el = document.getElementById('log');
-      if (el) { const p = document.createElement('div'); p.textContent = msg; el.appendChild(p); }
-    }
-  </script>
-  <script src="https://telegram.org/js/telegram-web-app.js"
-          onload="__diag.sdkLoaded=true; log('✅ SDK loaded');"
-             <div><strong>SDK Load:</strong> <span id="sdk-status">checking…</span></div>
-    <div><strong>Detected:</strong> <span id="detected">checking…</span></div>
-    <div><strong>Platform:</strong> <span id="platform">n/a</span></div>
-    <div><strong>Version:</strong> <span id="version">n/a</span></div>
-    <div><strong>InitData present:</strong> <span id="init">n/a</span></div>
-    <div><strong>UserAgent:</strong> <code id="ua"></code></div>
-    <div><strong>Referrer:</strong> <code id="ref"></code></div>
-  </div>
-
-  <div class="box">
-    <button id="send">Send Data to Bot</button>
-    <button id="close">Close WebView</button>
-  </div>
-
-  <div class="box">
-    <strong>Log:</strong>
-    <div id="log" style="margin-top:6px"></div>
-  </div>
-
-  <script>
-    (function () {
-      const $ = id => document.getElementById(id);
-
-      function updateUI() {
-        $('ua').textContent = navigator.userAgent || '(empty)';
-        $('ref').textContent = document.referrer || '(empty)';
-        $('sdk-status').textContent = window.__diag.sdkLoaded ? '✅ Loaded' :
-                                      (window.__diag.sdkError ? '❌ Failed' : '…');
-
-        const tg = window.Telegram && window.Telegram.WebApp;
-        if (!tg) {
-          $('detected').innerHTML = '<span class="err">❌ window.Telegram.WebApp NOT available</span>';
-          return;
-        }
-        $('detected').innerHTML = '<span class="ok">✅ window.Telegram.WebApp available</span>';
-
-        try { tg.ready(); } catch (e) { log('ready() threw: ' + e); }
-
-        $('platform').textContent = tg.platform || '(unknown)';
-        $('version').textContent  = tg.version  || '(unknown)';
-
-        const hasInit = !!(tg.initData || (tg.initDataUnsafe && Object.keys(tg.initDataUnsafe).length));
-        $('init').textContent = hasInit ? '✅ yes' : '⚠️ no';
-
-        $('send').onclick = () => {
-          try {
-            tg.sendData(JSON.stringify({ diag: true, ts: Date.now() }));
-            log('sendData called');
-          } catch (e) {
-            log('sendData error: ' + e);
-            alert('sendData error: ' + e);
-          }
-        };
-
-        $('close').onclick = () => {
-          try { tg.close(); } catch (e) { log('close error: ' + e); }
-        };
-      }
-
-      // Wait a tick to allow SDK script to run
-      setTimeout(updateUI, 150);
-    })();
+    const tg = window.Telegram?.WebApp;
+    document.getElementById('status').textContent = tg ? "✅ Telegram.WebApp detected" : "❌ Not detected";
+    document.getElementById('send').onclick = () => {
+      if (!tg) { alert("Not inside Telegram"); return; }
+      tg.sendData(JSON.stringify({ test: true, message: "Hello from Mini App" }));
+      tg.close();
+    };
   </script>
 </body>
-</html>
