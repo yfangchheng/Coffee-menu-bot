@@ -3,26 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>Mini App Test</title>
-  <script src="https://telegramram-web-app.js</script>
-  <style>
-    body { font-family: sans-serif; padding: 20px; }
-    button { padding: 10px 16px; font-size: 16px; }
-    #status { margin-bottom: 12px; font-weight: bold; }
-  </style>
+  https://telegram.org/js/telegram-web-app.js
 </head>
 <body>
-  <div id="status">Checking Telegram context...</div>
+  <h1>WebApp Test</h1>
+  <p id="status">Checking...</p>
   <button id="send">Send Data</button>
-
   <script>
     const tg = window.Telegram?.WebApp;
     document.getElementById('status').textContent = tg ? "✅ Telegram.WebApp detected" : "❌ Not detected";
-
     document.getElementById('send').onclick = () => {
-      if (!tg) {
-        alert("Not inside Telegram WebApp");
-        return;
-      }
+      if (!tg) { alert("Not inside Telegram"); return; }
       tg.sendData(JSON.stringify({ test: true, message: "Hello from Mini App" }));
       tg.close();
     };
