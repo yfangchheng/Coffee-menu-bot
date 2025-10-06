@@ -2,30 +2,106 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Mini App Test</title>
+  <title>QS Coffee — Order</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  https://telegram.org/js/telegram-web-app.js
+  https://telegram.org/js/telegram-web-app.js</script>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    h1 { margin-bottom: 10px; }
-    #status { margin-bottom: 20px; font-weight: bold; }
-    button { padding: 10px 16px; font-size: 16px; }
+    body { font-family: system-ui, Arial; margin: 0; padding: 16px; }
+    h1 { margin: 0 0 10px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+    .card { border: 1px solid #ddd; border-radius: 8px; padding: 12px; background: #fff; }
+    .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .options { display: flex; gap: 8px; margin-top: 8px; }
+    select, button { padding: 8px 10px; font-size: 14px; }
+    #footer { position: sticky; bottom: 0; background: #fafafa; border-top: 1px solid #eee; padding: 12px; margin-top: 14px; }
+    #total { font-weight: 700; }
   </style>
 </head>
 <body>
-  <h1>✅ Mini App Test</h1>
-  <div id="status">Waiting for action...</div>
-  <button id="clickBtn">Click Me</button>
+  <h1>☕ QS Coffee</h1>
+  <p>Add items, then tap <b>Send Order</b>.</p>
+
+  <div class="grid">
+    <div class="card" data-name="Americano" data-price="1.5">
+      <div class="row"><strong>Americano</strong><span>$1.50</span></div>
+      <div class="options">
+        <label>Sugar <select class="sugar"><option>Normal</option><option>No sugar</option><option>Extra sugar</option></select></label>
+        <label>Ice <select class="ice"><option>Normal ice</option><option>Less ice</option><option>Extra ice</option></select></label>
+      </div>
+      <button class="add" style="margin-top:8px">Add</button>
+    </div>
+
+    <div class="card" data-name="Latte" data-price="1.5">
+      <div class="row"><strong>Latte</strong><span>$1.50</span></div>
+      <div class="options">
+        <label>Sugar <select class="sugar"><option>Normal</option><option>No sugar</option><option>Extra sugar</option></select></label>
+        <label>Ice <select class="ice"><option>Normal ice</option><option>Less ice</option><option>Extra ice</option></select></label>
+      </div>
+      <button class="add" style="margin-top:8px">Add</button>
+    </div>
+
+    <div class="card" data-name="Cappuccino" data-price="2">
+      <div class="row"><strong>Cappuccino</strong><span>$2.00</span></div>
+      <div class="options">
+        <label>Sugar <select class="sugar"><option>Normal</option><option>No sugar</option><option>Extra sugar</option></select></label>
+        <label>Ice <select class="ice"><option>Normal ice</option><option>Less ice</option><option>Extra ice</option></select></label>
+      </div>
+      <button class="add" style="margin-top:8px">Add</button>
+    </div>
+  </div>
+
+  <div id="footer" class="row">
+    <div>🛒 Items: <span id="count">0</span> | <span id="total">$0.00</span></div>
+    <div>
+      <button id="clear">Clear</button>
+      <button id="send">Send Order</button>
+    </div>
+  </div>
 
   <script>
-    const tg = window.Telegram?.WebApp;
-    tg?.ready();
-    document.getElementById("clickBtn").addEventListener("click", () => {
-      document.getElementById("status").textContent = "Button Clicked!";
-      if (tg) {
-        tg.sendData(JSON.stringify({ clicked: true, message: "Button was clicked" }));
-      }
+    const tg = window.Telegram?.WebApp; tg?.ready();
+
+    const prices = { Americano: 1.5, Latte: 1.5, Cappuccino: 2.0 };
+    const cart = [];
+    const $ = id => document.getElementById(id);
+
+    function render() {
+      const count = cart.reduce((n, i) => n + i.qty, 0);
+      const total = cart.reduce((s, i) => s + (prices[i.name] || 0) * i.qty, 0);
+      $("count").textContent = String(count);
+      $("total").textContent = `$${total.toFixed(2)}`;
+    }
+
+    function addItem(name, sugar, ice) {
+      const key = `${name}|${sugar}|${ice}`;
+      const found = cart.find(i => i.key === key);
+      if (found) found.qty += 1; else cart.push({ key, name, sugar, ice, qty: 1 });
+      render();
+    }
+
+    document.querySelectorAll(".card").forEach(card => {
+      const name = card.dataset.name;
+      const sugarSel = card.querySelector(".sugar");
+      const iceSel = card.querySelector(".ice");
+      card.querySelector(".add").addEventListener("click", () => addItem(name, sugarSel.value, iceSel.value));
     });
+
+    $("clear").addEventListener("click", () => { cart.splice(0, cart.length); render(); });
+
+    $("send").addEventListener("click", () => {
+      if (!cart.length) { alert("Your cart is empty."); return; }
+      const total = cart.reduce((s, i) => s + (prices[i.name] || 0) * i.qty, 0);
+      const payload = {
+        order: cart.map(({ name, qty, sugar, ice }) => ({ name, qty, sugar, ice })),
+        total: Number(total.toFixed(2)),
+        paid: true
+      };
+      if (!tg) { alert("Open from Telegram."); return; }
+      tg.sendData(JSON.stringify(payload));
+      tg.close();
+    });
+
+    render();
   </script>
 </body>
 </html>
