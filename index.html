@@ -1,229 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>QS Coffee Menu</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Telegram WebApp JS -->
-  https://telegram.org/js/telegram-web-app.js</script>
+  <meta charset="UTF-8">
+  <title>Mini App Test</title>
+  <script src="https://telegramram-web-app.js</script>
   <style>
-    :root { color-scheme: light dark; }
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; padding: 16px; }
-    h1, h2 { margin: 0 0 12px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
-    .card { border: 1px solid #ddd; border-radius: 8px; padding: 12px; background: #fff; }
-    .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-    .muted { color: #666; font-size: 0.9rem; }
-    button { padding: 8px 12px; border: none; border-radius: 6px; background: #0a84ff; color: #fff; cursor: pointer; }
-    button.secondary { background: #6c757d; }
-    button.ghost { background: transparent; color: #0a84ff; }
-    #checkout, #not-tg { margin-top: 16px; padding: 12px; border: 1px dashed #bbb; border-radius: 8px; display: none; }
-    #cartCount { font-weight: 600; }
-    .inline { display: inline-flex; align-items: center; gap: 6px; }
-    .options { display: flex; gap: 8px; margin-top: 8px; }
-    select { padding: 6px; border-radius: 6px; border: 1px solid #ccc; }
-    .footer { margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
-    .qr { width: 140px; height: 140px; background: repeating-linear-gradient(45deg, #eee, #eee 6px, #ddd 6px, #ddd 12px); border-radius: 6px; }
+    body { font-family: sans-serif; padding: 20px; }
+    button { padding: 10px 16px; font-size: 16px; }
+    #status { margin-bottom: 12px; font-weight: bold; }
   </style>
 </head>
 <body>
-  <h1>☕ Coffee Menu</h1>
-  <p class="muted">Add items to your cart, then tap <strong>Checkout</strong>.</p>
-
-  <div class="grid" id="menu">
-    <!-- Americano -->
-    <div class="card" data-name="Americano" data-price="1.5">
-      <div class="row"><strong>Americano</strong><span>$1.5</span></div>
-      <div class="options">
-        <label class="inline">Sugar
-          <select class="sugar">
-            <option>Normal</option>
-            <option>No sugar</option>
-            <option>Extra sugar</option>
-          </select>
-        </label>
-        <label class="inline">Ice
-          <select class="ice">
-            <option>Normal ice</option>
-            <option>Less ice</option>
-            <option>Extra ice</option>
-          </select>
-        </label>
-      </div>
-      <div style="margin-top:10px">
-        <button class="add">Add</button>
-      </div>
-    </div>
-
-    <!-- Latte -->
-    <div class="card" data-name="Latte" data-price="1.5">
-      <div class="row"><strong>Latte</strong><span>$1.5</span></div>
-      <div class="options">
-        <label class="inline">Sugar
-          <select class="sugar">
-            <option>Normal</option>
-            <option>No sugar</option>
-            <option>Extra sugar</option>
-          </select>
-        </label>
-        <label class="inline">Ice
-          <select class="ice">
-            <option>Normal ice</option>
-            <option>Less ice</option>
-            <option>Extra ice</option>
-          </select>
-        </label>
-      </div>
-      <div style="margin-top:10px">
-        <button class="add">Add</button>
-      </div>
-    </div>
-
-    <!-- Cappuccino -->
-    <div class="card" data-name="Cappuccino" data-price="2">
-      <div class="row"><strong>Cappuccino</strong><span>$2.0</span></div>
-      <div class="options">
-        <label class="inline">Sugar
-          <select class="sugar">
-            <option>Normal</option>
-            <option>No sugar</option>
-            <option>Extra sugar</option>
-          </select>
-        </label>
-        <label class="inline">Ice
-          <select class="ice">
-            <option>Normal ice</option>
-            <option>Less ice</option>
-            <option>Extra ice</option>
-          </select>
-        </label>
-      </div>
-      <div style="margin-top:10px">
-        <button class="add">Add</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="row" style="margin-top:16px">
-    <div>🛒 <span id="cartCount">0</span></div>
-    <div class="footer">
-      <button id="btn-checkout" class="secondary">Checkout</button>
-      <button id="btn-clear" class="ghost">Clear</button>
-    </div>
-  </div>
-
-  <!-- Checkout box -->
-  <div id="checkout">
-    <h2>Scan QR to Pay</h2>
-    <div class="row" style="gap:12px; align-items:flex-start;">
-      <div class="qr" title="QR placeholder"></div>
-      <div>
-        <p class="muted" id="orderPreview">Your order will be sent to the shop.</p>
-        <div class="footer">
-          <button id="btn-paid">I Have Paid</button>
-          <button id="btn-cancel" class="secondary">Cancel</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Shown if not opened inside Telegram -->
-  <div id="not-tg">
-    <strong>Open inside Telegram:</strong> Please open this page from your bot’s <em>☕ Order Coffee</em> button.
-  </div>
+  <div id="status">Checking Telegram context...</div>
+  <button id="send">Send Data</button>
 
   <script>
-    const tg = window.Telegram && window.Telegram.WebApp;
-    if (tg) { tg.ready(); }
+    const tg = window.Telegram?.WebApp;
+    document.getElementById('status').textContent = tg ? "✅ Telegram.WebApp detected" : "❌ Not detected";
 
-    const cart = [];
-    const prices = { Americano: 1.5, Latte: 1.5, Cappuccino: 2.0 };
-
-    const el = {
-      cartCount: document.getElementById('cartCount'),
-      checkout: document.getElementById('checkout'),
-      notTg: document.getElementById('not-tg'),
-      preview: document.getElementById('orderPreview'),
-      btnCheckout: document.getElementById('btn-checkout'),
-      btnClear: document.getElementById('btn-clear'),
-      btnPaid: document.getElementById('btn-paid'),
-      btnCancel: document.getElementById('btn-cancel')
-    };
-
-    function renderCartCount() {
-      const count = cart.reduce((n, it) => n + it.qty, 0);
-      el.cartCount.textContent = String(count);
-    }
-
-    function addItem(name, sugar, ice) {
-      // merge by name+sugar+ice
-      const key = `${name}|${sugar}|${ice}`;
-      const existing = cart.find(it => it.key === key);
-      if (existing) existing.qty += 1;
-      else cart.push({ key, name, qty: 1, sugar, ice });
-      renderCartCount();
-    }
-
-    function getTotal() {
-      return cart.reduce((sum, it) => sum + (prices[it.name] || 0) * it.qty, 0);
-    }
-
-    function buildPayload(paid) {
-      return {
-        order: cart.map(({name, qty, sugar, ice}) => ({ name, qty, sugar, ice })),
-        total: Number(getTotal().toFixed(2)),
-        paid: !!paid
-      };
-    }
-
-    function updatePreview() {
-      if (!cart.length) { el.preview.textContent = "Your cart is empty."; return; }
-      const lines = cart.map(it => `- ${it.name} x${it.qty} (${it.sugar}, ${it.ice})`);
-      el.preview.textContent = lines.join('\n') + `\n\nTotal: $${getTotal().toFixed(2)}`;
-    }
-
-    // Wire menu buttons
-    document.querySelectorAll('.card').forEach(card => {
-      const name = card.dataset.name;
-      const sugarSel = card.querySelector('.sugar');
-      const iceSel = card.querySelector('.ice');
-      card.querySelector('.add').addEventListener('click', () => {
-        addItem(name, sugarSel.value, iceSel.value);
-      });
-    });
-
-    // Buttons
-    el.btnCheckout.addEventListener('click', () => {
-      if (!cart.length) { alert('Your cart is empty.'); return; }
-      updatePreview();
-      el.checkout.style.display = 'block';
-    });
-
-    el.btnClear.addEventListener('click', () => {
-      cart.splice(0, cart.length);
-      renderCartCount();
-      el.checkout.style.display = 'none';
-    });
-
-    el.btnCancel.addEventListener('click', () => {
-      el.checkout.style.display = 'none';
-    });
-
-    el.btnPaid.addEventListener('click', () => {
-      try {
-        if (!tg) { alert('Open this page from inside Telegram.'); return; }
-        if (!cart.length) { alert('Your cart is empty.'); return; }
-        const payload = buildPayload(true);
-        tg.sendData(JSON.stringify(payload)); // <-- triggers update.message.web_app_data
-        tg.close(); // optional: close webview
-      } catch (e) {
-        console.error(e);
-        alert('Failed to send data to Telegram.');
+    document.getElementById('send').onclick = () => {
+      if (!tg) {
+        alert("Not inside Telegram WebApp");
+        return;
       }
-    });
-
-    // Not-in-Telegram banner
-    if (!tg) { el.notTg.style.display = 'block'; }
+      tg.sendData(JSON.stringify({ test: true, message: "Hello from Mini App" }));
+      tg.close();
+    };
   </script>
 </body>
 </html>
