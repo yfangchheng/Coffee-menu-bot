@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Telegram Mini App Test</title>
+  <title>Mini App Test</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://telegram.org/js/telegram-webyle>
+  https://telegram.org/js/telegram-web-app.js
+  <style>
     body { font-family: Arial, sans-serif; padding: 20px; }
     h1 { margin-bottom: 10px; }
     #status { margin-bottom: 20px; font-weight: bold; }
@@ -12,14 +13,13 @@
   </style>
 </head>
 <body>
-  <h1>Telegram Mini App Test</h1>
+  <h1>✅ Mini App Test</h1>
   <div id="status">Waiting for action...</div>
   <button id="clickBtn">Click Me</button>
 
   <script>
     const tg = window.Telegram?.WebApp;
     tg?.ready();
-
     document.getElementById("clickBtn").addEventListener("click", () => {
       document.getElementById("status").textContent = "Button Clicked!";
       if (tg) {
